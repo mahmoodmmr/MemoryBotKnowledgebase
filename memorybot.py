@@ -12,6 +12,8 @@ from langchain.chains.conversation.memory import ConversationEntityMemory
 from langchain.chains.conversation.prompt import ENTITY_MEMORY_CONVERSATION_TEMPLATE
 from langchain.llms import OpenAI
 
+from langchain.chat_models import ChatOpenAI
+
 # Set Streamlit page configuration
 st.set_page_config(page_title='🧠MemoryBot🤖', layout='wide')
 # Initialize session states
@@ -76,11 +78,14 @@ API_O = st.sidebar.text_input("API-KEY", type="password")
 # Session state storage would be ideal
 if API_O:
     # Create an OpenAI instance
+    # llm = OpenAI(temperature=0,
+    #             openai_api_key=API_O, 
+    #             model_name=MODEL, 
+    #             verbose=False) 
+    
     llm = OpenAI(temperature=0,
-                openai_api_key=API_O, 
-                model_name=MODEL, 
-                verbose=False) 
-
+             openai_api_key='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', 
+             verbose=False)
 
     # Create a ConversationEntityMemory object if not already created
     if 'entity_memory' not in st.session_state:
@@ -108,6 +113,7 @@ if user_input:
     output = Conversation.run(input=user_input)  
     st.session_state.past.append(user_input)  
     st.session_state.generated.append(output)  
+    
 
 # Allow to download as well
 download_str = []
